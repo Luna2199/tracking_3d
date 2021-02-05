@@ -657,7 +657,7 @@ class MapVis(Visualizer):
         mm = map_model
         
         for vid, vehicle in vehicles.items():
-            # if vid == pair[0] or vid == pair[1]:
+            if vid == pair[0] or vid == pair[1]:
                 color_array = self.colors[vid % self.nr_colors]
                 color = (int(color_array[0]), int(color_array[1]), int(color_array[2]))
 

@@ -3320,7 +3320,7 @@ def init_pipeline(conf, init_frame_id, need_rectification, replay):
 
     bg_fn = conf.get_bg_fn()
     mask_fn = conf.get_mask_fn()
-    print(bg_fn, mask_fn)
+    # print(bg_fn, mask_fn)
 
     frame_bg = cv2.imread(bg_fn)
     mask_bg = cv2.imread(mask_fn)
@@ -3823,6 +3823,8 @@ def test_tracker(cam_id, track_id):
     # save_video = False
     save_video = True
 
+    render = False
+
     fmt = 'npy'
     # fmt = 'csv'
 
@@ -3916,7 +3918,7 @@ def test_tracker(cam_id, track_id):
         # rot_map = False
 
         pipeline_visualize(tracker, tracker.frame_current, frame_id, fvis,
-                           mvis, rot_map, h_line, writer, render=False)
+                           mvis, rot_map, h_line, writer, render=render)
 
         # print(frame_id)
 
@@ -4097,8 +4099,8 @@ if __name__ == '__main__':
     # Process just one video.
     # test_tracker(4, 1)
     # test_tracker(4, 2)
-
-    test_tracker(3, 0)
+    for i in range(1, 4):
+        test_tracker(i, 0)
     # test_tracker(1, 0)
     # test_tracker(1, 201)
     # test_tracker(2, 201)
