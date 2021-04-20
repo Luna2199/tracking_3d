@@ -2517,7 +2517,7 @@ class Tracker(object):
 
         motion, vel_n = self.compute_robust_motion(
             instance, k_min, k_max, motion_th)
-        print('motion: {}, vel_n: {}'.format(motion, vel_n))
+        # print('motion: {}, vel_n: {}'.format(motion, vel_n))
         pvx = point - motion
 
         # q0_lmap = camera_model.transform_point_image_to_lmap(point)
@@ -4096,26 +4096,15 @@ def test_joint_tracker():
 
 
 if __name__ == '__main__':
-    # Process just one video.
-    # test_tracker(4, 1)
-    # test_tracker(4, 2)
-    for i in range(1, 4):
-        test_tracker(i, 0)
-    # test_tracker(1, 0)
-    # test_tracker(1, 201)
-    # test_tracker(2, 201)
-    # test_tracker(3, 201)
-
-    # test_tracker(3, 103)
-
-    # Process all videos.
-    # for cam_id in range(0, 4):
-    #     for track_id in range(10, 13):
-
-    #         print('camera %d, track %d' % (cam_id, track_id))
-
-    #         test_tracker(cam_id, track_id)
-
+   
+    # for i in range(1, 4):
+    #     for j in range(1, 13):
+    #         test_tracker(i, j)
+    
+    for i in range(4):
+        for j in range(3):
+            test_tracker(i, j)
+    
     # test_joint_tracker()
 
     pass

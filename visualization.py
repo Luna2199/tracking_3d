@@ -648,7 +648,7 @@ class MapVis(Visualizer):
                      (int(pos_vel_point_lmap[0]), int(pos_vel_point_lmap[1])), color, 3)
     
     
-    def draw_vehicle_states_on_map(self, map_local, map_model, vehicles, frame_inverval, pair=None, thickness=8):
+    def draw_vehicle_states_on_map(self, map_local, map_model, vehicles, frame_inverval, pair=None, lane=None, all_df=None, thickness=8):
         
         # This is a scalar to make the velocity vector more easy to observe
         # when plotted on the map.
@@ -657,121 +657,127 @@ class MapVis(Visualizer):
         mm = map_model
         
         for vid, vehicle in vehicles.items():
-            if vid == pair[0] or vid == pair[1]:
-                color_array = self.colors[vid % self.nr_colors]
-                color = (int(color_array[0]), int(color_array[1]), int(color_array[2]))
+            df_id = all_df[all_df['temporaryId'] == vid]
+            
+            # if vid == pair[0] or vid == pair[1]:
+            color_array = self.colors[vid % self.nr_colors]
+            color = (int(color_array[0]), int(color_array[1]), int(color_array[2]))
 
-                heading = vehicle.heading
-                pos, vel, pos_flag = vehicle.get_pos_vel()
+            heading = vehicle.heading
+            pos, vel, pos_flag = vehicle.get_pos_vel()
 
-                pos_uc, vel_uc = vehicle.get_pos_vel_uc()
+            pos_uc, vel_uc = vehicle.get_pos_vel_uc()
 
-                pos_uc_point = pos.copy()
-                pos_uc_point[0] += pos_uc
-                pos_vel_point = pos + vel * frame_inverval * vel_d
-
-
-
-                dim = vehicle.dim
-                l = dim[0]
-                w = dim[1]
-
-                nv = heading / np.linalg.norm(heading)
-                nt = np.asarray((-nv[1], nv[0], 0))
-
-                if pos_flag == 0:
-
-                    qa = pos + 0.5 * w * nt
-                    qb = pos - 0.5 * w * nt
-                    qc = qa - l * nv
-                    qd = qb - l * nv
-
-                elif pos_flag == 1:
-
-                    qa = pos + 0.5 * l * nv
-                    qc = pos - 0.5 * l * nv
-                    qb = qa - w * nt
-                    qd = qc - w * nt
-
-                elif pos_flag == 2:
-
-                    qb = pos + 0.5 * l * nv
-                    qd = pos - 0.5 * l * nv
-                    qa = qb + w * nt
-                    qc = qd + w * nt
-
-                elif pos_flag == 3:
-
-                    qc = pos + 0.5 * w * nt
-                    qd = pos - 0.5 * w * nt
-                    qa = qc + l * nv
-                    qb = qd + l * nv
-
-                elif pos_flag == 8:
-
-                    qa = pos + 0.5 * w * nt + 0.5 * l * nv
-                    qb = pos - 0.5 * w * nt + 0.5 * l * nv
-                    qc = pos + 0.5 * w * nt - 0.5 * l * nv
-                    qd = pos - 0.5 * w * nt - 0.5 * l * nv
+            pos_uc_point = pos.copy()
+            pos_uc_point[0] += pos_uc
+            pos_vel_point = pos + vel * frame_inverval * vel_d
 
 
-                else:
+            dim = vehicle.dim
+            l = dim[0]
+            w = dim[1]
 
-                    # The pos_flag is buggy!
-                    continue
+            nv = heading / np.linalg.norm(heading)
+            nt = np.asarray((-nv[1], nv[0], 0))
 
+            if pos_flag == 0:
 
-                # Transform points to the map.
+                qa = pos + 0.5 * w * nt
+                qb = pos - 0.5 * w * nt
+                qc = qa - l * nv
+                qd = qb - l * nv
 
-                pos_lmap = mm.transform_points_xyz_to_lmap(pos.reshape((3, 1)))
-                pos_uc_point_lmap = mm.transform_points_xyz_to_lmap(pos_uc_point.reshape((3, 1)))
-                pos_uc_lmap = np.linalg.norm(pos_uc_point_lmap - pos_lmap)
+            elif pos_flag == 1:
 
-                pos_vel_point_lmap = mm.transform_points_xyz_to_lmap(pos_vel_point.reshape((3, 1)))
+                qa = pos + 0.5 * l * nv
+                qc = pos - 0.5 * l * nv
+                qb = qa - w * nt
+                qd = qc - w * nt
 
+            elif pos_flag == 2:
 
-                # Draw the bounding box of the vehicle projected on the map.
+                qb = pos + 0.5 * l * nv
+                qd = pos - 0.5 * l * nv
+                qa = qb + w * nt
+                qc = qd + w * nt
 
-                qa_lmap = mm.transform_points_xyz_to_lmap(qa.reshape((3, 1)))
-                qb_lmap = mm.transform_points_xyz_to_lmap(qb.reshape((3, 1)))
-                qc_lmap = mm.transform_points_xyz_to_lmap(qc.reshape((3, 1)))
-                qd_lmap = mm.transform_points_xyz_to_lmap(qd.reshape((3, 1)))
+            elif pos_flag == 3:
 
-                center_lmap = (qa_lmap + qb_lmap + qc_lmap + qd_lmap) / 4
+                qc = pos + 0.5 * w * nt
+                qd = pos - 0.5 * w * nt
+                qa = qc + l * nv
+                qb = qd + l * nv
 
-                ra = (int(qa_lmap[0]), int(qa_lmap[1]))
-                rb = (int(qb_lmap[0]), int(qb_lmap[1]))
-                rc = (int(qc_lmap[0]), int(qc_lmap[1]))
-                rd = (int(qd_lmap[0]), int(qd_lmap[1]))
+            elif pos_flag == 8:
 
-                cv2.line(map_local, ra, rb, color, thickness)
-                cv2.line(map_local, rb, rd, color, thickness)
-                cv2.line(map_local, rd, rc, color, thickness)
-                cv2.line(map_local, rc, ra, color, thickness)
-
-                # Draw the uncertainty circle and the velocity vector on the map.
-
-                rp = (int(center_lmap[0]), int(center_lmap[1]))
-                #rp = (int(pos_lmap[0]), int(pos_lmap[1]))
-                rp_uc = int(pos_uc_lmap)
-
-                rpv = (int(pos_vel_point_lmap[0]), int(pos_vel_point_lmap[1]))
-
-                cv2.circle(map_local, rp, rp_uc, color, 4)
-                #cv2.line(map_local, rp, rpv, color, 4)
+                qa = pos + 0.5 * w * nt + 0.5 * l * nv
+                qb = pos - 0.5 * w * nt + 0.5 * l * nv
+                qc = pos + 0.5 * w * nt - 0.5 * l * nv
+                qd = pos - 0.5 * w * nt - 0.5 * l * nv
 
 
-                offset = (qc_lmap - qa_lmap) * 1.0
-                tx = int(qc_lmap[0] + offset[0]/2)
-                ty = int(qc_lmap[1] + offset[1]/2)
+            else:
 
-                # Convert the speed to km/h.
-                # speed = np.linalg.norm(v3d) * 3.6
-                # Convert the speed to mile/h.
-                speed = np.linalg.norm(vel) #* 3.6 #/ 1.609344
+                # The pos_flag is buggy!
+                continue
 
-                cv2.putText(map_local, '{}:{}'.format(vid, round(speed, 1)), (tx, ty),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1.5, color, 4)
+
+            # Transform points to the map.
+
+            pos_lmap = mm.transform_points_xyz_to_lmap(pos.reshape((3, 1)))
+            pos_uc_point_lmap = mm.transform_points_xyz_to_lmap(pos_uc_point.reshape((3, 1)))
+            pos_uc_lmap = np.linalg.norm(pos_uc_point_lmap - pos_lmap)
+
+            pos_vel_point_lmap = mm.transform_points_xyz_to_lmap(pos_vel_point.reshape((3, 1)))
+
+
+            # Draw the bounding box of the vehicle projected on the map.
+
+            qa_lmap = mm.transform_points_xyz_to_lmap(qa.reshape((3, 1)))
+            qb_lmap = mm.transform_points_xyz_to_lmap(qb.reshape((3, 1)))
+            qc_lmap = mm.transform_points_xyz_to_lmap(qc.reshape((3, 1)))
+            qd_lmap = mm.transform_points_xyz_to_lmap(qd.reshape((3, 1)))
+
+            center_lmap = (qa_lmap + qb_lmap + qc_lmap + qd_lmap) / 4
+
+            ra = (int(qa_lmap[0]), int(qa_lmap[1]))
+            rb = (int(qb_lmap[0]), int(qb_lmap[1]))
+            rc = (int(qc_lmap[0]), int(qc_lmap[1]))
+            rd = (int(qd_lmap[0]), int(qd_lmap[1]))
+
+            cv2.line(map_local, ra, rb, color, thickness)
+            cv2.line(map_local, rb, rd, color, thickness)
+            cv2.line(map_local, rd, rc, color, thickness)
+            cv2.line(map_local, rc, ra, color, thickness)
+
+            # Draw the uncertainty circle and the velocity vector on the map.
+
+            rp = (int(center_lmap[0]), int(center_lmap[1]))
+            #rp = (int(pos_lmap[0]), int(pos_lmap[1]))
+            rp_uc = int(pos_uc_lmap)
+
+            rpv = (int(pos_vel_point_lmap[0]), int(pos_vel_point_lmap[1]))
+
+            cv2.circle(map_local, rp, rp_uc, color, 4)
+            #cv2.line(map_local, rp, rpv, color, 4)
+
+
+            offset = (qc_lmap - qa_lmap) * 1.0
+            tx = int(qc_lmap[0] + offset[0]/2)
+            ty = int(qc_lmap[1] + offset[1]/2)
+
+            # Convert the speed to km/h.
+            # speed = np.linalg.norm(v3d) * 3.6
+            # Convert the speed to mile/h.
+            speed = np.linalg.norm(vel) #* 3.6 #/ 1.609344
+            try:
+                line_id = df_id.lane.values[0]
+                cv2.putText(map_local, f'({vid}, {round(speed, 1)}, {line_id})', (tx, ty),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.2, color, 4)
+            except:
+                cv2.putText(map_local, f'({vid}, {round(speed, 1)})', (tx, ty),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.2, color, 4)
+
         pass
     
     def draw_vehicle_states_on_global_map(self, map, map_model, vehicles, frame_inverval):

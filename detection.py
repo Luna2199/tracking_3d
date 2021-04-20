@@ -14,9 +14,9 @@ import numpy as np
 import torch
 import torchvision
 import torchvision.transforms as T
-from detectron2 import model_zoo
-from detectron2.config import get_cfg
-from detectron2.engine import DefaultPredictor
+# from detectron2 import model_zoo
+# from detectron2.config import get_cfg
+# from detectron2.engine import DefaultPredictor
 
 import tracking_3d.transforms as TT
 import tracking_3d.utils as utils
