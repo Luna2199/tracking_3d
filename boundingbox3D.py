@@ -8,8 +8,8 @@ Created on May 13, 2020
 import numpy as np
 import cv2
 
-from tracking_3d.calibration import Camera2DGroundModel
-from tracking_3d.visualization import FrameVis
+from calibration import Camera2DGroundModel
+from visualization import FrameVis
 
 
 class BB3D(object):

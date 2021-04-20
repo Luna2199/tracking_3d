@@ -9,7 +9,7 @@ import warnings
 import numpy as np
 import cv2
 
-from tracking_3d.calibration import MapModel
+from calibration import MapModel
 
 
 class VStateSeq(object):

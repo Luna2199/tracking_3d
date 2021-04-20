@@ -15,23 +15,23 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 
-from tracking_3d.background import CameraShakeRectifier
-from tracking_3d.background import KLTOpticalFlowTracker
-from tracking_3d.boundingbox3D import BB3D
-from tracking_3d.boundingbox3D import bb3d_perspective
-from tracking_3d.calibration import Camera2DGroundModel
-from tracking_3d.calibration import MapModel
-from tracking_3d.detection import DetectorTorchvisionMaskRCNN
-from tracking_3d.detection import DetectorWithSavedResults
-from tracking_3d.detection import calculate_box_size
-from tracking_3d.detection import calculate_mask_overlap
-from tracking_3d.detection import check_box_bottom_occlusion
-from tracking_3d.detection import check_box_on_mask_bg
-from tracking_3d.detection import check_box_overlap
-from tracking_3d.detection import compute_center_from_box
-from tracking_3d.detection import compute_contour_from_mask
-from tracking_3d.visualization import FrameVis
-from tracking_3d.visualization import MapVis
+from background import CameraShakeRectifier
+from background import KLTOpticalFlowTracker
+from boundingbox3D import BB3D
+from boundingbox3D import bb3d_perspective
+from calibration import Camera2DGroundModel
+from calibration import MapModel
+from detection import DetectorTorchvisionMaskRCNN
+from detection import DetectorWithSavedResults
+from detection import calculate_box_size
+from detection import calculate_mask_overlap
+from detection import check_box_bottom_occlusion
+from detection import check_box_on_mask_bg
+from detection import check_box_overlap
+from detection import compute_center_from_box
+from detection import compute_contour_from_mask
+from visualization import FrameVis
+from visualization import MapVis
 
 
 class Instance(object):
@@ -3818,10 +3818,10 @@ def test_tracker(cam_id, track_id):
     # replay = True
 
     # save = False
-    save = True
+    save = False
 
     # save_video = False
-    save_video = True
+    save_video = False
 
     render = False
 

@@ -1,3 +1,6 @@
+import numpy as np
+import cv2
+
 class MapVis3D(object):
 
     def __init__(self):

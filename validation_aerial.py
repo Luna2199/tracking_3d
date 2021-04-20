@@ -11,12 +11,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 
-from tracking_3d.calibration import MapModel
-from tracking_3d.calibration import Camera2DGroundModel
+from calibration import MapModel
+from calibration import Camera2DGroundModel
 
-from tracking_3d.validation_gps import load_gps_rt_results
+from validation_gps import load_gps_rt_results
 
-from tracking_3d.visualization import MapVis
+from visualization import MapVis
 
 
 class VStateSeq(object):

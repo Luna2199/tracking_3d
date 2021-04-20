@@ -11,8 +11,8 @@ import warnings
 import numpy as np
 import cv2
 
-from tracking_3d.background import CameraShakeRectifier
-from tracking_3d.tracking import TrackerConf
+from background import CameraShakeRectifier
+from tracking import TrackerConf
 
 
 def calculate_box_size(box):

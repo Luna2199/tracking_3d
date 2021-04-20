@@ -14,14 +14,14 @@ import numpy as np
 import torch
 import torchvision
 import torchvision.transforms as T
-# from detectron2 import model_zoo
-# from detectron2.config import get_cfg
-# from detectron2.engine import DefaultPredictor
+from detectron2 import model_zoo
+from detectron2.config import get_cfg
+from detectron2.engine import DefaultPredictor
 
-import tracking_3d.transforms as TT
-import tracking_3d.utils as utils
-from tracking_3d.background import CameraShakeRectifier
-from tracking_3d.engine import train_one_epoch
+import transforms as TT
+import utils as utils
+from background import CameraShakeRectifier
+from engine import train_one_epoch
 
 
 def mask_local_to_global(box, mask_local, frame_width, frame_height):

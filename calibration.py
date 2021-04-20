@@ -7,11 +7,11 @@ Created on May 9, 2020
 import math
 import numpy as np
 import cv2
-import tracking_3d.pywgs84 as pywgs84
+import pywgs84 as pywgs84
 
-from tracking_3d.visualization import FrameVis
-from tracking_3d.visualization import Visualizer
-from tracking_3d.visualization import MapVis
+from visualization import FrameVis
+from visualization import Visualizer
+from visualization import MapVis
 
 class GridPlane(object):
     
