@@ -657,7 +657,7 @@ class MapVis(Visualizer):
         mm = map_model
         
         for vid, vehicle in vehicles.items():
-            df_id = all_df[all_df['temporaryId'] == vid]
+            # df_id = all_df[all_df['temporaryId'] == vid]
             
             # if vid == pair[0] or vid == pair[1]:
             color_array = self.colors[vid % self.nr_colors]

@@ -3383,7 +3383,7 @@ def init_pipeline(conf, init_frame_id, need_rectification, replay):
     # Now open the video file. Skip a few frames as needed.
 
     video_fn = conf.get_video_fn()
-    print(video_fn)
+    # print(video_fn)
 
     cap = cv2.VideoCapture(video_fn)
     # print(cap.get(cv2.CAP_PROP_FPS))
@@ -3392,7 +3392,20 @@ def init_pipeline(conf, init_frame_id, need_rectification, replay):
 
     for i in range(init_frame_id):
         cap.read()
-    # cap.set(cv2.CAP_PROP_POS_FRAMES, init_frame_id-1)
+    # # cap.set(cv2.CAP_PROP_POS_FRAMES, init_frame_id-1)
+    # total_frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+    # factor = (cap.get(cv2.CAP_PROP_FPS)/30.0)
+    # fps = cap.get(cv2.CAP_PROP_FPS)
+    # vis_video_frames = total_frames/factor
+    #
+    # print(f'init_frame_id : {init_frame_id}, '
+    #       f'#total: {total_frames}, '
+    #       f'fps: {fps} factor: {factor}, '
+    #       f'vis_frame_count: {vis_video_frames}')
+    #
+    # print(f'factor: {factor}, init_frame_id: {init_frame_id}, factored_val: {init_frame_id * factor}')
+    #
+    # cap.set(cv2.CAP_PROP_POS_FRAMES, int(init_frame_id-1) * factor)
 
     ret, first_frame = cap.read()
 
@@ -3814,7 +3827,7 @@ def pipeline_bb3d_joint_visualize(trackers, fvis):
 
 
 def test_tracker(cam_id, track_id):
-    replay = False
+    replay = True
     # replay = True
 
     # save = False
@@ -3823,7 +3836,7 @@ def test_tracker(cam_id, track_id):
     # save_video = False
     save_video = False
 
-    render = False
+    render = True
 
     fmt = 'npy'
     # fmt = 'csv'
@@ -4101,8 +4114,8 @@ if __name__ == '__main__':
     #     for j in range(1, 13):
     #         test_tracker(i, j)
     
-    for i in range(4):
-        for j in range(3):
+    for i in range(1):
+        for j in range(1):
             test_tracker(i, j)
     
     # test_joint_tracker()

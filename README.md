@@ -1,3 +1,14 @@
 ## Tracking algorithm
 
-`tracking.py` - main file to run the tracking algorithm
+### Python Environment Setup
+1) Use the provided `env.yml` to install required dependencies <br>
+2) Run `conda env install -f env.yml` <br>
+3) Add `export PYTHONPATH=$PYTHONPATH:/path_to_root` to `~/.bashrc` <br>
+
+
+### Using the algorithm
+1) The algorithm requires calibration files based on the location of the cameras. <br>
+2) The tracking algorithm can be used to either extract or replay trajectories from the video 
+3) To extract tracking data in `*.npy` format, use `tracking.py` with `replay=False`
+4) The video and calibration files are to be placed in a folder parent to the root_folder
+5) Sample [video](https://drive.google.com/drive/folders/1TQiYoiA1uMNZHRfJPVhJXa6p-TgNV2PX?usp=sharing) and [calibration files](https://drive.google.com/file/d/1Pll2jAHzyQONjZ6ThRXL4I-WMVeCfhN7/view?usp=sharing) are provided. 
