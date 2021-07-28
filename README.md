@@ -15,9 +15,9 @@
 
 ### Expected folder structure
 - /
-  /avacar_data/video (raw_videos to be put here)
-  /avacar_data/processed_video (output video to visualize tracking results)
-  /avacar_data/calibration_2d (config files here)
-  /avacar_data/tracking (folder to save all the log files created by algo)
-  /tracking_3d (tracker code)
+- /avacar_data/video (raw_videos to be put here)
+- /avacar_data/processed_video (output video to visualize tracking results)
+- /avacar_data/calibration_2d (config files here)
+- /avacar_data/tracking (folder to save all the log files created by algo)
+- /tracking_3d (tracker code)
   
