@@ -9,6 +9,15 @@
 ### Using the algorithm
 1) The algorithm requires calibration files based on the location of the cameras. <br>
 2) The tracking algorithm can be used to either extract or replay trajectories from the video 
-3) To extract tracking data in `*.npy` format, use `tracking.py` with `replay=False`
+3) To extract tracking data in `*.npy` format, use `tracking.py` with `replay=False`, `save=True`(save logs)
 4) The video and calibration files are to be placed in a folder parent to the root_folder
-5) Sample [video](https://drive.google.com/drive/folders/1TQiYoiA1uMNZHRfJPVhJXa6p-TgNV2PX?usp=sharing) and [calibration files](https://drive.google.com/file/d/1Pll2jAHzyQONjZ6ThRXL4I-WMVeCfhN7/view?usp=sharing) are provided. 
+5) Sample [video](https://drive.google.com/drive/folders/1TQiYoiA1uMNZHRfJPVhJXa6p-TgNV2PX?usp=sharing) and [calibration files](https://drive.google.com/file/d/1Pll2jAHzyQONjZ6ThRXL4I-WMVeCfhN7/view?usp=sharing) are provided.
+
+### Expected folder structure
+- /
+  /avacar_data/video (raw_videos to be put here)
+  /avacar_data/processed_video (output video to visualize tracking results)
+  /avacar_data/calibration_2d (config files here)
+  /avacar_data/tracking (folder to save all the log files created by algo)
+  /tracking_3d (tracker code)
+  
