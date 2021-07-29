@@ -12,6 +12,7 @@
 3) To extract tracking data in `*.npy` format, use `tracking.py` with `replay=False`, `save=True`(save logs)
 4) The video and calibration files are to be placed in a folder parent to the root_folder
 5) Sample [video](https://drive.google.com/drive/folders/1TQiYoiA1uMNZHRfJPVhJXa6p-TgNV2PX?usp=sharing) and [calibration files](https://drive.google.com/file/d/1Pll2jAHzyQONjZ6ThRXL4I-WMVeCfhN7/view?usp=sharing) are provided.
+6) Retrained model for detection: https://www.dropbox.com/s/0j1051ie3otb77e/retrained_net.pth?dl=0 (Place this in tracking_3d folder)
 
 ### Expected folder structure
 - /
