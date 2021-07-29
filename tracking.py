@@ -911,11 +911,11 @@ class TrackerConf(object):
 
             subfolder = folder + '/tracking/' + subfolder + '_' + fmt + '_' + prefix + postfix
 
-            if not os.path.isdir(folder + '/' + subfolder):
-                os.mkdir(folder + '/' + subfolder)
+            # if not os.path.isdir(folder + '/' + subfolder):
+            #     os.mkdir(folder + '/' + subfolder)
 
-            # if not os.path.exists(subfolder):
-            #     os.makedirs(subfolder)
+            if not os.path.exists(subfolder):
+                os.makedirs(subfolder)
 
         pass
 
@@ -2898,6 +2898,7 @@ class Tracker(object):
             self.save_data_file(fn_sof, corners_sofs, fmt, is_integer=False)
 
         fn_instances = conf.get_fn_per_frame('tracking', fmt, 'tracking', frame_id)
+
         self.save_data_file(fn_instances, ss, fmt, is_integer=False)
 
     def load_instances(self, conf, frame_id, fmt):
@@ -3383,10 +3384,8 @@ def init_pipeline(conf, init_frame_id, need_rectification, replay):
     # Now open the video file. Skip a few frames as needed.
 
     video_fn = conf.get_video_fn()
-    # print(video_fn)
 
     cap = cv2.VideoCapture(video_fn)
-    # print(cap.get(cv2.CAP_PROP_FPS))
     #sys.exit()
     assert cap.isOpened()
 
@@ -3826,15 +3825,15 @@ def pipeline_bb3d_joint_visualize(trackers, fvis):
     pass
 
 
-def test_tracker(cam_id, track_id):
-    replay = True
+def test_tracker(cam_id, track_id, folder, prefixes):
     # replay = True
+    replay = False
 
     # save = False
-    save = False
+    save = True
 
     # save_video = False
-    save_video = False
+    save_video = True
 
     render = True
 
@@ -3849,13 +3848,12 @@ def test_tracker(cam_id, track_id):
     direction = cam_id
     postfix = ('_%d' % track_id)
 
-    prefixes = ['westbound', 'eastbound', 'northbound', 'southbound', 'osburn1004']
+
     prefix = prefixes[direction]
 
     h_lines = [100, 100, 110, 90, 120]
     h_line = h_lines[cam_id]
 
-    folder = '../avacar_data'
 
     conf = TrackerConf(folder, prefix, postfix)
     conf.create_folders(folder, prefix, postfix, fmt)
@@ -4110,14 +4108,23 @@ def test_joint_tracker():
 
 if __name__ == '__main__':
    
+    prefixes = ['westbound', 'eastbound', 'northbound', 'southbound']
+    
+    ## Copy path containing the data (videos and calibration)
+    folder = '/ssd/Projects/IAM/tracking_3d/data'
+    
+    ## For running tracking in a specific direction and a specific video number
+    video_id = 7
+    prefix_id = 1
+    
+    test_tracker(prefix_id, video_id, folder, prefixes)
+    
+    ## For running tracker in all directions and for all videos
     # for i in range(1, 4):
     #     for j in range(1, 13):
     #         test_tracker(i, j)
-    
-    for i in range(1):
-        for j in range(1):
-            test_tracker(i, j)
-    
+
+
     # test_joint_tracker()
 
     pass
