@@ -906,17 +906,12 @@ class TrackerConf(object):
     def create_folders(self, folder, prefix, postfix, fmt):
 
         subfolders = ['instance', 'tracking', 'vehicle', 'multiple_view']
-
+        if not os.path.isdir(folder + '/tracking'):
+            os.mkdir(folder + '/tracking')
         for subfolder in subfolders:
-
             subfolder = folder + '/tracking/' + subfolder + '_' + fmt + '_' + prefix + postfix
-
-            # if not os.path.isdir(folder + '/' + subfolder):
-            #     os.mkdir(folder + '/' + subfolder)
-
             if not os.path.exists(subfolder):
                 os.makedirs(subfolder)
-
         pass
 
     def get_fn_per_frame(self, subfolder, fmt, attribute_type, frame_id):
