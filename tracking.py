@@ -959,9 +959,10 @@ class TrackerConf(object):
         folder = self.get_calibration_folder()
         return folder + '/' + self.prefix + '_map_global.png'
 
-    def get_video_fn(self):
+    def get_video_fn(self, extension):
 
-        return self.folder + '/video/' + self.prefix + self.postfix + '.mpg'
+        # return self.folder + '/video/' + self.prefix + self.postfix + '.mpg'
+        return self.folder + '/video/' + self.prefix + self.postfix + extension
 
 
 class TrackerStats(object):
@@ -3297,7 +3298,7 @@ class Tracker(object):
         return found, dist_min, vehicle_found
 
 
-def init_pipeline(conf, init_frame_id, need_rectification, replay):
+def init_pipeline(conf, init_frame_id, need_rectification, replay, extension):
     folder = conf.folder
     prefix = conf.prefix
     postfix = conf.postfix
@@ -3378,7 +3379,7 @@ def init_pipeline(conf, init_frame_id, need_rectification, replay):
 
     # Now open the video file. Skip a few frames as needed.
 
-    video_fn = conf.get_video_fn()
+    video_fn = conf.get_video_fn(extension)
 
     cap = cv2.VideoCapture(video_fn)
     #sys.exit()
@@ -3830,7 +3831,10 @@ def test_tracker(cam_id, track_id, folder, prefixes):
     # save_video = False
     save_video = True
 
-    render = True
+    render = False
+
+    # source video extension (works for .avi, .mpg and .mp4)
+    extension = '.avi'
 
     fmt = 'npy'
     # fmt = 'csv'
@@ -3868,11 +3872,13 @@ def test_tracker(cam_id, track_id, folder, prefixes):
     init_frame_id = 0
 
     tracker, cap, csr, map_local, map_gmap, first_frame \
-        = init_pipeline(conf, init_frame_id, need_rectification, replay)
+        = init_pipeline(conf, init_frame_id, need_rectification, replay, extension=extension)
 
     # Initialize the video writer, for the processed video
     # ToDO: processed video should be checked for
     if save_video:
+        if not os.path.exists(folder + '/processed_video/'):
+            os.mkdir(folder + '/processed_video/')
         fn_processed_video = folder + '/processed_video/' + prefix + postfix + '.mp4'
         writer_fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         writer_size = (2560, 1440)
@@ -4106,11 +4112,12 @@ if __name__ == '__main__':
     prefixes = ['westbound', 'eastbound', 'northbound', 'southbound']
     
     ## Copy path containing the data (videos and calibration)
-    folder = '/ssd/Projects/IAM/tracking_3d/data'
+    folder = './data'
     
     ## For running tracking in a specific direction and a specific video number
-    video_id = 7
-    prefix_id = 1
+    ## assumes the naming format for eg: southbound_12.mpg
+    video_id = 13
+    prefix_id = 3
     
     test_tracker(prefix_id, video_id, folder, prefixes)
     

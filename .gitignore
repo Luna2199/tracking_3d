@@ -3,3 +3,4 @@ retrain/
 __pycache__/
 retrained_net.pth
 .idea/*
+data/
